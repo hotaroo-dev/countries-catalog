@@ -143,7 +143,7 @@ function App() {
             ))}
           </motion.ul>
         ) : (
-          <p className="text-center">No data</p>
+          error && <p className="text-center">No data</p>
         )}
       </AnimatePresence>
     </div>
