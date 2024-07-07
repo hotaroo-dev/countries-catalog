@@ -15,29 +15,40 @@ function App() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [countries, setCountries] = useState<ICountry[]>();
   const [searchedCountries, setSearchedCountries] = useState<ICountry[]>();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const page = +(searchParams.get("page") ?? 0);
   const sort = searchParams.get("sort");
   const searchTerm = searchParams.get("search") ?? "";
   const offset = page * limit;
   const allCountries = searchedCountries ?? countries;
-  const countriesByPage =
-    (allCountries?.length ?? 0) > offset + limit
+  const countriesByPage = error
+    ? null
+    : (allCountries?.length ?? 0) > offset + limit
       ? allCountries?.slice(offset, offset + limit)
       : allCountries?.slice(offset, allCountries.length);
-  const filterdCountries = sort
-    ? sort === "asc"
-      ? countriesByPage?.sort(asc)
-      : countriesByPage?.sort(desc)
-    : countriesByPage;
+  const filterdCountries = error
+    ? null
+    : sort
+      ? sort === "asc"
+        ? countriesByPage?.sort(asc)
+        : countriesByPage?.sort(desc)
+      : countriesByPage;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      setLoading(true);
+      setError(false);
       if (!searchTerm) {
         setSearchedCountries(undefined);
+        setLoading(false);
         return;
       }
       getCountriesByName(searchTerm).then((data) => {
+        const { status } = data as any;
+        if (status === 404) setError(true);
         setSearchedCountries(data);
+        setLoading(false);
       });
     }, 400);
 
@@ -45,8 +56,10 @@ function App() {
   }, [searchTerm]);
 
   useEffect(() => {
+    setLoading(true);
     getCountries().then((data) => {
       setCountries(data);
+      setLoading(false);
     });
   }, []);
 
@@ -122,7 +135,9 @@ function App() {
       </div>
 
       <AnimatePresence initial={false} mode="wait">
-        {filterdCountries?.length ? (
+        {loading ? (
+          <Loading />
+        ) : filterdCountries?.length ? (
           <motion.ul
             key={`${page}-${sort}-${searchTerm}`}
             variants={opacityVariants}
@@ -137,7 +152,7 @@ function App() {
             ))}
           </motion.ul>
         ) : (
-          <Loading />
+          <p className="text-center">No data</p>
         )}
       </AnimatePresence>
     </div>
