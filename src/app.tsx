@@ -116,7 +116,7 @@ function App() {
             <IconArrowLeft className="text-2xl" />
           </button>
           <button
-            className="rounded-full border border-gray-500 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600"
+            className="rounded-full border border-gray-500 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600 disabled:text-gray-400"
             disabled={offset + limit > +(allCountries?.length ?? 0)}
             onClick={() => setParams("page", String(page + 1))}
           >
