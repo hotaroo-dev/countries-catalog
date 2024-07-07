@@ -109,7 +109,7 @@ function App() {
         </div>
         <div className="space-x-5">
           <button
-            className="disabled: rounded-full border border-gray-500 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600 disabled:text-gray-400"
+            className="rounded-full border border-gray-500 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600 disabled:text-gray-400"
             disabled={page === 0}
             onClick={() => setParams("page", String(page - 1))}
           >
