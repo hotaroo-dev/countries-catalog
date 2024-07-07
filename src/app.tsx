@@ -109,25 +109,16 @@ function App() {
         </div>
         <div className="space-x-5">
           <button
-            className="rounded-full border border-gray-400 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600"
-            onClick={() =>
-              setParams("page", String(page - 1 < 0 ? 0 : page - 1))
-            }
+            className="disabled: rounded-full border border-gray-500 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600 disabled:text-gray-400"
+            disabled={page === 0}
+            onClick={() => setParams("page", String(page - 1))}
           >
             <IconArrowLeft className="text-2xl" />
           </button>
           <button
-            className="rounded-full border border-gray-400 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600"
-            onClick={() =>
-              setParams(
-                "page",
-                String(
-                  offset + limit > +(allCountries?.length ?? 0)
-                    ? page
-                    : page + 1,
-                ),
-              )
-            }
+            className="rounded-full border border-gray-500 p-1 duration-300 hover:border-indigo-600 hover:bg-indigo-100 hover:text-indigo-600"
+            disabled={offset + limit > +(allCountries?.length ?? 0)}
+            onClick={() => setParams("page", String(page + 1))}
           >
             <IconArrowRight className="text-2xl" />
           </button>
