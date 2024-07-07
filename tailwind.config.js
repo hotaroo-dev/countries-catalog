@@ -11,6 +11,12 @@ export default {
         lg: "1.5rem",
       },
     },
+    screens: {
+      sx: "480px",
+      sm: "640px",
+      md: "960px",
+      lg: "1280px",
+    },
   },
   plugins: [],
 };
